@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <title>Naira Conversion Results</title>
+   <link rel="stylesheet" type="text/css" href="/final.css">
+</head>
+<body>
+   <h1>Naira Conversion Results</h1>
+   <!-- Debugging statement to inspect resultsToNaira -->
+   <% console.log('resultsToNaira in EJS:', resultsToNaira); %>
+   
+   <table class="tabili">
+       <tr>
+           <th>Currency</th>
+           <th>Converted Amount in (<%= selectedCurrency %>)</th>
+           <th>Converted Amount in Naira</th> <!-- Add this column -->
+       </tr>
+       <% const sortedCurrencies = Object.keys(results).sort((a, b) => results[b] - results[a]); %>
+       <% for (const currency of sortedCurrencies) { %>
+           <tr>
+               <td><%= currency %></td>
+               <td><%= results[currency] %></td>
+               <!-- Display the converted amount in Naira for each currency -->
+               <td><%= resultsToNaira[currency] %></td>
+           </tr>
+       <% } %>
+   </table>
+   <form action="/user/dashboard/saveresult" method="post">
+       <input type="hidden" name="selectedCurrency" value="<%= selectedCurrency %>">
+       <!-- Serialize resultsToNaira to JSON -->
+       <input type="hidden" name="resultsToNaira" value='<%= JSON.stringify(resultsToNaira) %>'>
+       <input type="submit" value="Save Result">
+   </form>
+</body>
+</html>
+
+
+
+
+
